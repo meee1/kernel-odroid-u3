@@ -44,27 +44,25 @@ fi
 
 if [ ! -d $ODROID_KERNEL_DIR ]; then
   cd $BUILD_DIR
-  git clone --branch master https://github.com/RKaczmarek/linux-mainline-and-mali-generic-stable-kernel.git
-  cd $ODROID_KERNEL_DIR
-  git fetch origin develop
+  git clone --branch $ODROID_KERNEL_BRANCH https://github.com/RKaczmarek/linux-mainline-and-mali-generic-stable-kernel.git
 else
   cd $ODROID_KERNEL_DIR
-  git reset --hard HEAD; git clean -xdf;
+  git fetch origin $ODROID_KERNEL_BRANCH
+  git reset --hard origin/$ODROID_KERNEL_BRANCH
 fi
-
-git checkout $ODROID_KERNEL_BRANCH
 
 if [ ! -d $LINUX_STABLE_DIR ]; then
   cd $BUILD_DIR
   git clone --depth 1 --single-branch --branch v$KERNEL_VERSION git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+else
+  cd $LINUX_STABLE_DIR
+  git fetch origin v$KERNEL_VERSION
+  git reset --hard origin/v$KERNEL_VERSION
 fi
 
 ##########################################################################################################
 # Working on (git root)/linux-stable/
 cd $LINUX_STABLE_DIR
-
-# If script is reexecuted, will reapply all patches over a clean base
-git reset --hard HEAD; git clean -xdf;
 
 # Patches
 #
