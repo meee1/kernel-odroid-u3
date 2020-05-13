@@ -81,7 +81,7 @@ patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/dts-add-gpu-node-for-exynos4412.patch
 patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/dts-add-gpu-opp-table.patch
 patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/dts-setup-gpu-node.patch
 patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/dts-exynos-remove-new-gpu-node-v5.3.patch
-cp -v          $ODROID_KERNEL_DIR/.config.exy $LINUX_STABLE_DIR
+cp -v          $ODROID_KERNEL_DIR/config.exy $LINUX_STABLE_DIR/.config
 
 make oldconfig
 
