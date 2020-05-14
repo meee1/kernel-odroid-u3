@@ -27,7 +27,7 @@ DIST_DIR=$SELF_DIR/dist
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export ARCH=arm
 export INSTALL_MOD_PATH=$ROOTFS_DIR
-export KERNEL_VERSION=5.4.14
+export KERNEL_VERSION=5.4.20
 
 apt-get -y install gcc-arm-linux-gnueabihf flex bison libssl-dev libncurses-dev bc tree
 
@@ -119,7 +119,7 @@ DEFAULT v${KERNEL_VERSION//\./}
 
 MENU TITLE odroid u3 boot options
 
-LABEL v545
+LABEL v${KERNEL_VERSION//\./}
       MENU LABEL v$KERNEL_VERSION mali kernel mmcblk0
       LINUX ../zImage-$KERNEL_VERSION-stb-exy+
       # odroid u3
