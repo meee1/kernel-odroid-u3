@@ -15,13 +15,13 @@ if [ "$ODROID_KERNEL_BRANCH" != "master" ] && [ "$ODROID_KERNEL_BRANCH" != "deve
 fi
 
 SELF_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-BUILD_DIR=$SELF_DIR/dist
+BUILD_DIR=$SELF_DIR/build
 ROOTFS_DIR=$BUILD_DIR/rootfs
 BOOT_DIR=$ROOTFS_DIR/boot
 EXTLINUX_DIR=$BOOT_DIR/extlinux
 LINUX_STABLE_DIR=$BUILD_DIR/linux-stable
 ODROID_KERNEL_DIR=$BUILD_DIR/linux-mainline-and-mali-generic-stable-kernel
-RELEASE_DIR=$BUILD_DIR/release
+DIST_DIR=$SELF_DIR/dist
 
 # Based on https://github.com/RKaczmarek/linux-mainline-and-mali-generic-stable-kernel/blob/master/readme.exy
 export CROSS_COMPILE=arm-linux-gnueabihf-
@@ -29,7 +29,7 @@ export ARCH=arm
 export INSTALL_MOD_PATH=$ROOTFS_DIR
 export KERNEL_VERSION=5.4.14
 
-sudo apt-get -y install gcc-arm-linux-gnueabihf flex bison libssl-dev libncurses-dev bc tree
+apt-get -y install gcc-arm-linux-gnueabihf flex bison libssl-dev libncurses-dev bc tree
 
 if [ ! -d $BUILD_DIR ]; then
   mkdir -p $BUILD_DIR
@@ -70,7 +70,7 @@ cd $LINUX_STABLE_DIR
 patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/eth-hw-addr.patch
 
 # fix thermal cpu cooling for the odroid u3 and x2
-patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/fix-odroid-u3-cpu-cooling.patch
+# patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/fix-odroid-u3-cpu-cooling.patch
 
 # add mali support
 patch -N -p1 < $ODROID_KERNEL_DIR/misc.exy/exynos4412-mali-complete.patch
@@ -144,6 +144,14 @@ README.odroid-u3
 
 EOF
 
+
+if [ -d $DIST_DIR ]; then
+  rm $DIST_DIR/${kver}.tar.gz
+else
+  mkdir -p $DIST_DIR
+fi
+
 cd $ROOTFS_DIR
-tar -cvzf $RELEASE_DIR/${kver}.tar.gz ./*
+
+tar -cvzf $DIST_DIR/${kver}.tar.gz ./*
 tree -L 5 $ROOTFS_DIR
