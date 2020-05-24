@@ -1,4 +1,3 @@
-/rootfs
-/linux-stable
-/*.gz
-/config.*
+/build
+/dist
+.config*
