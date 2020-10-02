@@ -27,7 +27,7 @@ DIST_DIR=$SELF_DIR/dist
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export ARCH=arm
 export INSTALL_MOD_PATH=$ROOTFS_DIR
-export KERNEL_VERSION=5.4.20
+export KERNEL_VERSION=5.4.69
 
 apt-get -y install gcc-arm-linux-gnueabihf flex bison libssl-dev libncurses-dev bc tree
 
@@ -56,8 +56,9 @@ if [ ! -d $LINUX_STABLE_DIR ]; then
   git clone --depth 1 --single-branch --branch v$KERNEL_VERSION git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 else
   cd $LINUX_STABLE_DIR
-  git fetch origin v$KERNEL_VERSION
-  git reset --hard origin/v$KERNEL_VERSION
+  git fetch
+  git reset --hard HEAD
+  git checkout v$KERNEL_VERSION
 fi
 
 ##########################################################################################################
