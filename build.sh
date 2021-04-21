@@ -88,6 +88,9 @@ make oldconfig
 # See https://linoxide.com/firewall/configure-nftables-serve-internet/
 make menuconfig
 
+echo CONFIG_NET_IPVTI=m >> .config
+echo CONFIG_NET_FOU=m >> .config
+
 make -j 4 zImage dtbs modules
 export kver=`make kernelrelease`
 echo ${kver}
